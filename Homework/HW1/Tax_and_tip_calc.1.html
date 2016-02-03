@@ -1,0 +1,99 @@
+<html ng-app="AngularJSHomework1">
+    <head>
+        <!-- from Google Hosted Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
+        <script lang="javascript">
+        
+            var myModule = angular.module('AngularJSHomework1', []);
+            
+            //first register the controller - https://docs.angularjs.org/guide/migration
+            myModule.controller('PayController', 
+                //we make an AngularJS controller right here in the template (we won't normally do this though)
+                function ($scope) {
+                    
+                    
+                    myModule.controller('PayController')
+                    var pc = this;
+                    
+                    pc.bill = 0.00;
+                    pc.add_tax = true;
+                    pc.add_tip = true;
+                    pc.add_gratuity = true;
+                    pc.total_bill = true;
+                    
+                    function update(){
+                        pc.tax = pc.add_tax ? pc.bill * pc.tax_rate : 0.00; 
+                        pc.tip = pc.add_tip ? pc.bill * pc.tip_rate : 0.00;
+                        pc.gratuity = pc.add_gratuity ? pc.bill * pc.gratuity_rate : 0.00;
+                        pc.total = parseFloat(pc.bill) + pc.tax + pc.tip + pc.gratuity; 
+                    }
+                    
+                    //used to detect when cost changes
+                    $scope.$watch('pc.cost', update);
+                    $scope.$watch('pc.add_tax', update);
+                    $scope.$watch('pc.add_tip', update);
+                    $scope.$watch('pc.add_gratuity', update);
+                    $scope.$watch('pc.bill + pc.tax', update);
+                    
+                    
+                    //shipping options
+                    pc.tax_rate = [
+                        {amount:0.1100, name:"Oklahoma Sales Tax"},
+                        {amount:0.0825, name:"Texas Sales Tax"},
+                        {amount:0.0513, name:"New Mexico Sales Tax"},
+                        {amount:0.1175, name:"Louisiana Sales Tax"}
+                    ];
+                    
+                    pc.add_tax = pc.tax_rate[0];
+                    
+                    pc.tip_rate = [
+                        {amount:0.10, name:"10% Tip"},
+                        {amount:0.15, name:"15% TIp"},
+                        {amount:0.20, name:"20% Tip"}
+                    ];
+                    pc.add_tip = pc.tip_rate[0];
+                    
+                    pc.gratuity_rate = [
+                        {amount:0.00, name:"No Gratuity"},
+                        {amount:0.20, name:"20% Gratuity Tip"}
+                    ];
+                    pc.add_gratuity = pc.gratuity_rate[0];
+                }
+            );
+        </script>
+    </head>
+    <body>
+        <div ng-controller="PayController as pc">
+            <p>
+                Cost: <input type="text" ng-model="pc.bill" placeholder="Bill" /><br/>
+            </p>
+            <p>
+                Tax: <select ng-model="pc.add_tax" ng-options="s.name for s in pc.tax_rate"></select>
+            </p>
+            <p>
+                Tip: <select ng-model="pc.add_tip" ng-options="n.name for t in pc.tip_rate"></select>
+            </p>
+            <p>
+                Gratuity: <select ng-model="pc.add_gratuity" ng-options="g.name for g in pc.gratuity_rate"></select>
+            </p>
+            <p>
+                <!-- the angular directive both associates with the bill model and
+                uses a built-in formatting capability -->
+                This is your bill: {{pc.bill|currency}}
+            </p>
+            <p>
+                This is your tax: {{pc.tax|currency}}
+            </p>
+            <p>
+                This is your None Gratuity Tip: {{pc.tip|currency}}
+            </p>
+            <p>
+                This is your Gratuity: {{pc.gratuity|currency}}
+            </p>
+            <p ng-show="pc.total">
+                This is your total: {{pc.total|currency}}
+            </p>
+            
+        </div>
+    </body>
+</html>
