@@ -1,10 +1,10 @@
-<html ng-app="AngularJSTaxAndTipCalc">
+<html ng-app="AngularJSHomework1">
     <head>
         <!-- from Google Hosted Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
         <script lang="javascript">
         
-            var myModule = angular.module('AngularJSTaxAndTipCalc', []);
+            var myModule = angular.module('AngularJSHomework1', []);
             
             //first register the controller - https://docs.angularjs.org/guide/migration
             myModule.controller('PayController', 
@@ -22,24 +22,22 @@
                     pc.total_bill = true;
                     
                     function update(){
-                        pc.tax = pc.add_tax * pc.bill; 
-                        pc.tip = pc.bill * pc.add_tip;
-                        pc.gratuity = pc.bill * pc.add_gratuity;
+                        pc.tax = pc.add_tax ? pc.bill * pc.state_tax.amount : 0.0000; 
+                        pc.tip = pc.add_tip ? pc.bill * pc.tip_size.amount : 0.00;
+                        pc.gratuity = pc.add_gratuity ? pc.bill * pc.gratuity_type.amount : 0.00;
                         pc.total = parseFloat(pc.bill) + pc.tax + pc.tip + pc.gratuity; 
                     }
                     
-                    //used to detect when cost changes
-                    $scope.$watch('pc.cost', update);
+                    //used to detect when bill changes
+                    $scope.$watch('pc.bill', update);
                     $scope.$watch('pc.add_tax', update);
                     $scope.$watch('pc.add_tip', update);
                     $scope.$watch('pc.add_gratuity', update);
-                    $scope.$watch('pc.bill + pc.tax', update);
+                    $scope.$watch('pc.state_tax', update);
+                    $scope.$watch('pc.tip_size', update);
+                    $scope.$watch('pc.gratuity_type', update);
+                    $scope.$watch('pc.bill + pc.tax + pc.tip + pc.gratuity', update);
                     
-                    //final bill
-                    pc.final_bill = 0.0;
-                    pc.add = function add(){
-                        pc.final_bill += pc.total;   
-                    }
                     
                     //shipping options
                     pc.tax_rate = [
@@ -49,38 +47,42 @@
                         {amount:0.1175, name:"Louisiana Sales Tax"}
                     ];
                     
-                    pc.add_tax = pc.tax_rate[0];
+                    pc.state_tax = pc.tax_rate[0];
                     
                     pc.tip_rate = [
                         {amount:0.10, name:"10% Tip"},
                         {amount:0.15, name:"15% TIp"},
                         {amount:0.20, name:"20% Tip"}
                     ];
-                    pc.add_tip = pc.tip_rate[1];
+                    pc.tip_size = pc.tip_rate[0];
                     
                     pc.gratuity_rate = [
                         {amount:0.00, name:"No Gratuity"},
                         {amount:0.20, name:"20% Gratuity Tip"}
                     ];
-                    pc.add_gratuity = gratuity_rate[2];
+                    pc.gratuity_type = pc.gratuity_rate[0];
                 }
             );
         </script>
     </head>
     <body>
         <div ng-controller="PayController as pc">
-            <input type="checkbox" ng-model="pc.add_gratuity" />Add Gratuity
-            <input type="checkbox" ng-model="pc.total_bill" />Show Total
             <p>
-                Cost: <input type="text" ng-model="pc.cost" placeholder="cost" /><br/>
-                Tax: <select ng-model="pc.add_tax" ng-options="s.name for s in pc.tax_rate"></select>
-                Tip: <select ng-model="pc.add_tip" ng-options="s.name for s in pc.tip_rate"></select>
-                Gratuity: <select ng-model="pc.add_gratuity" ng-options="s.name for s in pc.gratuity_rate"></select>
+                Cost: <input type="text" ng-model="pc.bill" placeholder="Bill" /><br/>
             </p>
             <p>
-                <!-- the angular directive both associates with the cost model and
+                Tax: <select ng-model="pc.state_tax" ng-options="s.name for s in pc.tax_rate"></select>
+            </p>
+            <p>
+                Tip: <select ng-model="pc.tip_size" ng-options="n.name for n in pc.tip_rate"></select>
+            </p>
+            <p>
+                Gratuity: <select ng-model="pc.gratuity_type" ng-options="g.name for g in pc.gratuity_rate"></select>
+            </p>
+            <p>
+                <!-- the angular directive both associates with the bill model and
                 uses a built-in formatting capability -->
-                This is your cost: {{pc.bill|currency}}
+                This is your bill: {{pc.bill|currency}}
             </p>
             <p>
                 This is your tax: {{pc.tax|currency}}
@@ -94,6 +96,7 @@
             <p ng-show="pc.total_bill">
                 This is your total: {{pc.total|currency}}
             </p>
+           
             
         </div>
     </body>
