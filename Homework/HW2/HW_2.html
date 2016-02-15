@@ -6,6 +6,21 @@
     <body>
         <div ng-controller="StudentSelector as ss">
             
+            <p>
+                Student Name: <input type="text" ng-model="ss.student" placeholder="Name" /><br/>
+            </p>
+            <p>
+                Course <select ng-model="ss.course" ng-options="c.name for c in ss.course"></select>
+            </p>
+            <p>
+                <button ng-click="ss.AddCourse()">Add Course</button>
+            </p>
+            <p>
+                <button ng-click="ss.AddStudent()">Add Student</button>
+            </p>
+            <p>
+                <button ng-click="ss.RandomStudent()">Choose Student</button>
+            </p>
             
         </div>
     </body>
