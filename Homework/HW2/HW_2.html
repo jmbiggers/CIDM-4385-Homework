@@ -11,7 +11,7 @@
                 Student Name: <input type="text" ng-model="ss.student" placeholder="Name" /><br/>
             </p>
             <p>
-                Course <select ng-model="ss.course" ng-options="c.name for c in ss.course"></select>
+                Course <select ng-model="ss.course" ng-options="course.name for course in ss.course"></select>
             </p>
             <p>
                 <button ng-click="ss.AddCourse()">Add Course</button>
