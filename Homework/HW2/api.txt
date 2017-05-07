@@ -1,0 +1,5 @@
+LA: https://api.darksky.net/forecast/49b342198cf7d55da446774ff1a841f2/37.8267,-122.4233
+
+Canyon: https://api.darksky.net/forecast/49b342198cf7d55da446774ff1a841f2/34.9812618,-101.9147484
+
+London: https://api.darksky.net/forecast/49b342198cf7d55da446774ff1a841f2/51.528308,-0.3817765

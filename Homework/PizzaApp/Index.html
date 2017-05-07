@@ -1,0 +1,81 @@
+<html ng-app='PizzaApp'>
+<head>
+    <script src="https://code.angularjs.org/1.6.2/angular.min.js"></script>
+	<script src="app.js"></script>
+	<title>Pizza Application</title>
+</head>
+<body ng-controller="PizzaController as pc">
+	<div>
+		<h3>Create a Pizza</h3>
+		<table>
+			<tr>
+				<th>Pick Your Pizza Size</th>
+			</tr>
+			<tr>
+				<td>
+					<select ng-model="pc.size" ng-options="s.code for s in pc.sizes"></select>
+				</td>
+			</tr>
+			<th>Pick Up to Five Toppings</th>
+			<tr>
+				<td>
+					<select ng-model="pc.toppings1" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="pc.toppings2" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="pc.toppings3" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="pc.toppings4" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="pc.toppings5" ng-options="t.name for t in pc.toppings_list"></select>
+				</td>
+			</tr>
+			<th>Pick Your Crust</th>
+			<tr>
+			    <td>
+			        <select ng-model="pc.crust" ng-options="c.name for c in pc.crust_list"></select>
+			    </td>
+			</tr>
+		</table>
+		<br/>
+		<br/>
+		<table ng-if="pc.pizzas != null" class="table-bordered" style="margin-left:10px">
+			<tr>
+				<th>Pizza List</th>
+			</tr>
+			
+			<tr ng-repeat="pizza in pc.pizzas" id="pizza{{$index}}" >
+				<td>
+					{{pizza.size}}
+				</td>
+				<td>
+					{{pizza.t1}} <br/> {{pizza.t2}} <br/> {{pizza.t3}} 
+					<br/> {{pizza.t4}} <br/> {{pizza.t5}}
+				</td>
+				<td>
+					<button ng-click="pc.remove($index)" class="btn-danger">Delete</button>
+				</td>
+				<td>
+					<button ng-click="newSize = pizza.size; showEdit = true" class="btn-warning">Edit</button>
+				</td>
+				<td ng-show="showEdit">
+					<p style="text-align:center">New Toppings</p><select ng-model="newTopping1" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="newTopping2" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="newTopping3" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="newTopping4" ng-options="t.name for t in pc.toppings_list"></select>
+					<br/>
+					<select ng-model="newTopping5" ng-options="t.name for t in pc.toppings_list"></select>
+				</td>
+				<td ng-show="showEdit">
+					<input type="button" class="btn-success" value="Submit" ng-click="pc.edit(pizza, newSize.name, newTopping1.name, newTopping2.name, newTopping3.name, newTopping4.name, newTopping5.name); showEdit = false;"/>
+				</td>
+			</tr>
+		</table>
+		<input style="margin-left:10px" type="button" class="btn-primary" value="Update" ng-click="pc.update(pc.size, pc.toppings1.name, pc.toppings2.name, pc.toppings3.name, pc.toppings4.name, pc.toppings5.name)"/>
+	</div>
+
+</body>
+</html>
