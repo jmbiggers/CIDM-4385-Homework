@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="QuizApplication">
+<head>
+    <script src="https://code.angularjs.org/1.6.2/angular.min.js"></script>
+	<script src="app.js"></script>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="Styles.css" />
+	<title>Quiz Application</title>
+</head>
+<body>
+            <div class="jumbotron" style="background:url(images/hypno3.gif); background-size:cover ">
+            <h1 style="text-align:center">Quiz Program</h1>
+            <p style="text-align:center">Random students and questions selected for quizically quizical quizzing</p>
+        </div>  
+        <div style="text-align:center">
+        <button ng-click="display = true" ng-hide = "display" style="background:black; color:red" class="btn btn-primary btn-lg">Begin</button>
+
+        </div>
+        <div class="container" ng-show="display">
+            <div ng-controller="QuizController as qc">
+                <!--<button type="button" class="btn btn-lg btn-default" ng-show="qpc.show_next" ng-click="qpc.getNext()">Next Student</button><br/>-->
+                <div style="margin:auto; width:300px">
+                <p><span class="label label-default">student:</span> {{qc.selected_student.Name}} </p>
+                <p><span class="label label-default">question:</span> {{qc.selected_question.Question}}</p>
+                <p><span class="label label-default">answer:</span> {{qc.selected_question.Answer}}</p>
+                <button type="button" class="btn btn-success" ng-click="qc.doCorrect(qc.selected_student)" >Correct</button>
+                <button type="button" class="btn btn-danger" ng-click="qc.doIncorrect(qc.selected_student)" >Incorrect</button>
+                <button type="button" class="btn btn-info" ng-click="toggleScores = true" ng-hide="toggleScores">Show Scores</button>
+                <button type="button" class="btn btn-info" ng-click="toggleScores = false" ng-show="toggleScores">Hide Scores</button>
+                </div>
+                <br/>
+                <br/>
+                <div style="margin:auto; width:400px">
+                <table class="table-bordered" ng-hide=true ng-show="toggleScores">
+                    <tr>
+                        <th style="padding:5px; text-align:center">Student Name</th>
+                        <th style="padding:5px">Number Correct</th>
+                        <th style="padding:5px">Number Incorrect</th>
+                    </tr>
+                    <tr ng-repeat="list in qc.students">
+                        <td style="text-align:center; padding:5px">{{list.Name}}</td>
+                        <td style="text-align:center">{{list.Correct}}</td>
+                        <td style="text-align:center">{{list.Incorrect}}</td>
+                    </tr>
+                    <tr ng-repeat="list2 in qc.students_completed">
+                        <td style="text-align:center; padding:5px">{{list2.Name}}</td>
+                        <td style="text-align:center">{{list2.Correct}}</td>
+                        <td style="text-align:center">{{list2.Incorrect}}</td>
+                    </tr>
+                </table>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
