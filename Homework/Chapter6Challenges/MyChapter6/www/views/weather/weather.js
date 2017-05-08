@@ -2,11 +2,30 @@ angular.module('App')
 .controller('WeatherController', function ($scope, $http, $stateParams, $ionicActionSheet, $ionicModal, Locations, Settings) {
   $scope.params = $stateParams;
   $scope.settings = Settings;
+  $scope.locations = Locations.data;
 
-  $http.get('/api/forecast/' + $stateParams.lat + ',' + $stateParams.lng, {params: {units: Settings.units}}).success(function (forecast) {
-    $scope.forecast = forecast;
-  });
 
+    $scope.reloadPage = function(){
+      $ionicLoading.show();
+        $http.get('/api/forecast/' + $stateParams.lat + ',' + $stateParams.lng, {params: {units: Settings.units}}).success(function (forecast) {
+        $scope.forecast = forecast;
+      $ionicLoading.hide();
+  })
+  .error(function(err){
+    $ionicLoading.show({
+      template: 'Danger, an Error has Occured.',
+      duration: 1800
+    });
+  })
+    .finally(function(){
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+
+  $ionicLoading.show();
+  $scope.reloadPage();
+  
   var barHeight = document.getElementsByTagName('ion-header-bar')[0].clientHeight;
   $scope.getWidth = function () {
     return window.innerWidth + 'px';

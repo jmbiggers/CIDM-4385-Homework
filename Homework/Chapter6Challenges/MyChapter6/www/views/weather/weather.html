@@ -7,6 +7,9 @@
   </ion-nav-buttons>
   <ion-content>
     <ion-scroll direction="y" paging="true" ng-style="{width: getWidth(), height: getHeight()}">
+      
+      <ion-refresher  pulling-text="Reloading Page"   on-refresh="reloadPage()"></ion-refresher>
+      
       <div ng-style="{height: getTotalHeight()}">
         <div class="scroll-page center" ng-style="{width: getWidth(), height: getHeight()}">
           <div class="bar bar-dark">
