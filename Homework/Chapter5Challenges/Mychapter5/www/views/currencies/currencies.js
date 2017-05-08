@@ -1,16 +1,19 @@
 angular.module('App')
 .controller('CurrenciesController', function ($scope, Currencies) {
-  $scope.currencies = Currencies;
-  $scope.state = {
+  
+  var cc = this;
+  
+  cc.currencies = Currencies;
+  cc.state = {
     reordering: false
   };
 
-  $scope.$on('$stateChangeStart', function () {
+  cc.$on('$stateChangeStart', function () {
     $scope.state.reordering = false;
   });
 
-  $scope.move = function(currency, fromIndex, toIndex) {
-    $scope.currencies.splice(fromIndex, 1);
-    $scope.currencies.splice(toIndex, 0, currency);
+  cc.move = function(currency, fromIndex, toIndex) {
+    cc.currencies.splice(fromIndex, 1);
+    cc.currencies.splice(toIndex, 0, currency);
   };
 });
